@@ -10,7 +10,9 @@ from kvirt import common
 from kvirt import nameutils
 from kvirt import dockerutils
 import os
+import subprocess
 import yaml
+import sys
 
 
 def start(args):
@@ -714,8 +716,12 @@ def ssh(args):
     else:
         user = None
     sshcommand = k.ssh(name, user=user, local=l, remote=r, tunnel=tunnel, insecure=insecure, cmd=cmd)
+    print sshcommand
     if sshcommand is not None:
-        os.system(sshcommand)
+        try:
+            subprocess.check_output(sshcommand, stderr=subprocess.STDOUT, shell=True)
+        except subprocess.CalledProcessError, error:
+            print error.output
     else:
         common.pprint("Couldnt ssh to %s" % name, color='red')
 
