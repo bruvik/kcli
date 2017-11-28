@@ -716,7 +716,6 @@ def ssh(args):
     else:
         user = None
     sshcommand = k.ssh(name, user=user, local=l, remote=r, tunnel=tunnel, insecure=insecure, cmd=cmd)
-    print sshcommand
     if sshcommand is not None:
         try:
             subprocess.check_output(sshcommand, stderr=subprocess.STDOUT, shell=True)
